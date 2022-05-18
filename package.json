@@ -1,0 +1,45 @@
+{
+  "name": "mmcs_nexus_v1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Blas Oronoz",
+    "email": "macizomedia@gmail.com"
+  },
+  "scripts": {
+    "dev": "ts-node-dev --transpile-only --no-notify api/index.ts",
+    "generate": "ts-node --transpile-only api/schema",
+    "test": "npm run generate && jest",
+    "build": "tsc"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "globals": {
+      "ts-jest": {
+        "diagnostics": {
+          "warnOnly": true
+        }
+      }
+    },
+    "testEnvironment": "node"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.14.0",
+    "apollo-server": "^3.7.0",
+    "graphql": "^16.5.0",
+    "graphql-iso-date": "^3.6.1",
+    "nexus": "^1.3.0"
+  },
+  "devDependencies": {
+    "@types/graphql-iso-date": "^3.4.0",
+    "@types/jest": "^27.5.1",
+    "get-port": "5.1.1",
+    "graphql-request": "^4.2.0",
+    "jest": "^28.1.0",
+    "prisma": "^3.14.0",
+    "ts-jest": "^28.0.2",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.6.4"
+  }
+}
