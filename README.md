@@ -56,3 +56,11 @@ DATABASE_URL="postgresql://whoami:1234@localhost:5432/project23"
    > `yarn dev`
 
    and check the apollo playground in `localhost:4000`
+
+## REFERENCES
+
+[Logrocket -> end to end type safety](https://blog.logrocket.com/end-to-end-type-safety-nextjs-prisma-graphql/)
+
+[Repo Prisma Example NextJS](https://github.com/prisma/prisma-examples/tree/latest/typescript/graphql-nextjs)
+
+[Repo e2e Type-safe-app](https://github.com/ruheni/e2e-type-safe-app)
