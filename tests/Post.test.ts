@@ -9,7 +9,7 @@ it("ensures that a draft can be created and published", async () => {
 
     mutation {
 
-      createDraft(title: "Nexus", body: "...") {            # 2
+      createDraft(title: "Nexus", body: "...", authorEmail: "peretop@mocos.com") {            # 2
 
         id
 

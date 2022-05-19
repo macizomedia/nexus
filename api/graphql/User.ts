@@ -144,7 +144,6 @@ export const userMutation = extendType({
 					avatar: args.avatar,
 					points: args.points,
 					level: args.level,
-					UserId: args.id,
 					User: {
 						connect: {
 							id: args.id
@@ -161,12 +160,7 @@ export const userMutation = extendType({
 						points: args.points,
 						level: args.level
 					},
-					create: {
-						...profile
-					},
-					include: {
-						User: true
-					}
+					create: profile
 				});
 			}
 		});
