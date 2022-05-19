@@ -9,12 +9,10 @@ export const Post = objectType({
 		t.boolean("published");
 		t.field("createdAt", { type: "DateTime" });
 		t.field("updatedAt", { type: "DateTime" });
-		t.int("authorId");
-		t.field("author", {
+		t.nullable.field("author", {
 			type: "User",
 			async resolve(parent, _args, ctx) {
-				parent.authorId ??= 0;
-				return ctx.db.user.findUnique({ where: { id: parent.authorId } });
+				return ctx.db.user.findUnique({ where: { id: Number(parent.id) } });
 			}
 		});
 	}
@@ -51,7 +49,8 @@ export const PostMutation = extendType({
 
 			args: {
 				title: nonNull(stringArg()),
-				body: nonNull(stringArg())
+				body: nonNull(stringArg()),
+				authorEmail: nonNull(stringArg())
 			},
 
 			resolve(_root, args, ctx) {
@@ -63,7 +62,16 @@ export const PostMutation = extendType({
 					published: false
 				};
 
-				return ctx.db.post.create({ data: draft });
+				return ctx.db.post.create({
+					data: {
+						...draft,
+						author: {
+							connect: {
+								email: args.authorEmail
+							}
+						}
+					}
+				});
 			}
 		});
 

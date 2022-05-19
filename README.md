@@ -45,14 +45,14 @@ DATABASE_URL="postgresql://whoami:1234@localhost:5432/project23"
 
 ```
 
-2. Run `yarn install` to install all dependecies
+2 Run `yarn install` to install all dependecies
 
-3. The Schema is ready and the nexus schame is also prepare, then run:
+3 The Schema is ready and the nexus schame is also prepare, then run:
    > `npx prisma migrate dev --name init --preview-feature`
-4. After the database is ready and types from prisma where generated you can run so Nexus generate the SDL or GraphQL types.
+4 After the database is ready and types from prisma where generated you can run so Nexus generate the SDL or GraphQL types.
    >`yarn generate`
 
-5. Finnally you can start the server with:
+5 Finnally you can start the server with:
    > `yarn dev`
 
    and check the apollo playground in `localhost:4000`

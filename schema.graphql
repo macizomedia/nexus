@@ -8,9 +8,9 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Mutation {
-  createDraft(body: String!, title: String!): Post
+  createDraft(authorEmail: String!, body: String!, title: String!): Post
   createProfile(avatar: String!, bio: String!, userId: Int!): Profile
-  createUser(email: String!, id: Int!, name: String!): User
+  createUser(email: String!, name: String!): User
   createUserWithProfile(email: String!, id: Int!, name: String!, profile: ProfileInput!): User
   deleteUser(id: Int!): User
   publish(draftId: Int!): Post
@@ -21,7 +21,6 @@ type Mutation {
 
 type Post {
   author: User
-  authorId: Int
   body: String
   createdAt: DateTime
   id: Int

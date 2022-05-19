@@ -62,7 +62,6 @@ export const userMutation = extendType({
 		t.field("createUser", {
 			type: User,
 			args: {
-				id: nonNull(intArg()),
 				email: nonNull(stringArg()),
 				name: nonNull(stringArg())
 			},
@@ -71,12 +70,7 @@ export const userMutation = extendType({
 					email: args.email,
 					name: args.name
 				};
-				const alreadyExists = ctx.db.user.findUnique({
-					where: { email: args.email }
-				});
-				return !alreadyExists
-					? ctx.db.user.create({ data: user })
-					: alreadyExists;
+				return ctx.db.user.create({ data: user });
 			}
 		});
 
@@ -100,24 +94,19 @@ export const userMutation = extendType({
 					points: args.profile.points,
 					level: "Beginner"
 				};
-				const alreadyExists = ctx.db.user.findUnique({
-					where: { email: args.email }
-				});
-				return !alreadyExists
-					? ctx.db.user.create({
-							data: {
-								...user,
-								profile: {
-									create: {
-										avatar: profile.avatar,
-										bio: profile.bio,
-										points: profile.points,
-										level: profile.level
-									}
-								}
+				return ctx.db.user.create({
+					data: {
+						...user,
+						profile: {
+							create: {
+								avatar: profile.avatar,
+								bio: profile.bio,
+								points: profile.points,
+								level: profile.level
 							}
-					  })
-					: alreadyExists;
+						}
+					}
+				});
 			}
 		});
 

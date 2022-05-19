@@ -53,7 +53,6 @@ export interface NexusGenScalars {
 export interface NexusGenObjects {
   Mutation: {};
   Post: { // root type
-    authorId?: number | null; // Int
     body?: string | null; // String
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
     id?: number | null; // Int
@@ -100,7 +99,6 @@ export interface NexusGenFieldTypes {
   }
   Post: { // field return type
     author: NexusGenRootTypes['User'] | null; // User
-    authorId: number | null; // Int
     body: string | null; // String
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
     id: number | null; // Int
@@ -145,7 +143,6 @@ export interface NexusGenFieldTypeNames {
   }
   Post: { // field return type name
     author: 'User'
-    authorId: 'Int'
     body: 'String'
     createdAt: 'DateTime'
     id: 'Int'
@@ -179,6 +176,7 @@ export interface NexusGenFieldTypeNames {
 export interface NexusGenArgTypes {
   Mutation: {
     createDraft: { // args
+      authorEmail: string; // String!
       body: string; // String!
       title: string; // String!
     }
@@ -189,7 +187,6 @@ export interface NexusGenArgTypes {
     }
     createUser: { // args
       email: string; // String!
-      id: number; // Int!
       name: string; // String!
     }
     createUserWithProfile: { // args
