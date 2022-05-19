@@ -50,7 +50,10 @@ export const userQuery = extendType({
 				id: nonNull(intArg())
 			},
 			async resolve(_parent, args, ctx) {
-				return ctx.db.user.findUnique({ where: { id: args.id } });
+				return ctx.db.user.findUnique({
+					where: { id: args.id },
+					include: { profile: true }
+				});
 			}
 		});
 	}
