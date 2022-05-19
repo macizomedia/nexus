@@ -8,6 +8,8 @@
     "email": "macizomedia@gmail.com"
   },
   "scripts": {
+    "generate-client": "PRISMA_CLIENT_ENGINE_TYPE='dataproxy' prisma generate",
+    "migrate": "PRISMA_URL=\"$MIGRATE_DATABASE_URL\" prisma migrate deploy",
     "dev": "ts-node-dev --transpile-only --no-notify api/index.ts",
     "generate": "ts-node --transpile-only api/schema",
     "test": "npm run generate && jest",
