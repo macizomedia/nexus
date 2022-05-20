@@ -26,7 +26,6 @@ model Profile {
   points Int?
   level  String? @default(value: "beginner")
   User   User    @relation(references: [id], fields: [userId], onDelete: Cascade)
-
 }
 
 model Post {
@@ -38,4 +37,51 @@ model Post {
   updatedAt DateTime @updatedAt
   author    User?    @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  Int?
+}
+
+model Challenge {
+  id          Int           @id @default(autoincrement())
+  type        ChallengeType
+  title       String
+  description String
+  activities  Activity[]
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Activity {
+  id          Int            @id @default(autoincrement())
+  type        ActivityType
+  status      ActivityStatus
+  title       String
+  description String
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  Challenge   Challenge?     @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  challengeId Int?
+}
+
+enum ChallengeType {
+  MOBILITY
+  ENVIRONMENT
+  ENERGY
+  HEALTH
+}
+
+enum ActivityType {
+  RUNNING
+  CYCLING
+  SWIMMING
+  WALKING
+  OTHER
+}
+
+enum ActivityStatus {
+  OPEN
+  CLOSED
+  COMPLETED
 }

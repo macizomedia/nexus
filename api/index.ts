@@ -1,7 +1,20 @@
-import { server } from './server'
+import Koa from "koa";
+import { Server } from "http";
+import { createApolloServer } from "./server";
 
-server.listen().then(({ url }) => {
+const httpServer = new Server();
+const app = new Koa();
 
-  console.log(`🚀 Server ready at ${url}`)
+const init = async () => {
+	const apolloServer = await createApolloServer(httpServer, app);
 
-})
+	// Start the server
+
+	app.listen(4000, () => {
+		console.log(
+			`🚀 Server ready at http://localhost:4000${apolloServer.graphqlPath}`
+		);
+	});
+};
+
+init();
