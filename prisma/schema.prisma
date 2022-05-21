@@ -68,7 +68,7 @@ model Activity {
 enum ChallengeType {
   MOBILITY
   ENVIRONMENT
-  ENERGY
+  WASTE
   HEALTH
 }
 

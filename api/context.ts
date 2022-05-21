@@ -17,6 +17,18 @@ export interface Context {
 	};
 }
 
-export const context = {
-	db
+export const context: Context = {
+	db,
+	request: {
+		request: {
+			headers: {
+				authorization: ""
+			}
+		},
+		connection: {
+			context: {
+				Authorization: ""
+			}
+		}
+	}
 };
