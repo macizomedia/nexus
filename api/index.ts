@@ -10,8 +10,6 @@ const app = new Koa();
 const init = async () => {
 	const apolloServer = await createApolloServer(db, httpServer, app);
 
-	// Start the server
-
 	app.listen(4000, () => {
 		console.log(
 			`🚀 Server ready at http://localhost:4000${apolloServer.graphqlPath}`

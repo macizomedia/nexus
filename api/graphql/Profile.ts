@@ -9,11 +9,7 @@ export const Profile = objectType({
 		t.int("points");
 		t.string("level");
 		t.field("user", {
-			type: "User",
-			async resolve(parent, _args, ctx) {
-				parent.userId ??= 0;
-				return ctx.db.user.findUnique({ where: { id: parent.userId } });
-			}
+			type: "User"
 		});
 	}
 });

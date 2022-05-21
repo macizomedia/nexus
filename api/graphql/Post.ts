@@ -3,18 +3,13 @@ import { objectType, extendType, stringArg, nonNull, intArg } from "nexus";
 export const Post = objectType({
 	name: "Post",
 	definition(t) {
-		t.int("id");
+		t.int("id", { description: 'Unique identifier for the resource' });
 		t.string("title");
 		t.string("body");
 		t.boolean("published");
 		t.field("createdAt", { type: "DateTime" });
 		t.field("updatedAt", { type: "DateTime" });
-		t.nullable.field("author", {
-			type: "User",
-			async resolve(parent, _args, ctx) {
-				return ctx.db.user.findUnique({ where: { id: Number(parent.id) } });
-			}
-		});
+		t.field("author", { type: "User" });
 	}
 });
 
@@ -29,7 +24,6 @@ export const PostQuery = extendType({
 				return ctx.db.post.findMany({ where: { published: false } });
 			}
 		});
-
 		t.list.field("posts", {
 			type: "Post",
 
@@ -52,7 +46,6 @@ export const PostMutation = extendType({
 				body: nonNull(stringArg()),
 				authorEmail: nonNull(stringArg())
 			},
-
 			resolve(_root, args, ctx) {
 				const draft = {
 					title: args.title,
@@ -61,7 +54,6 @@ export const PostMutation = extendType({
 					updatedAt: new Date().toISOString(),
 					published: false
 				};
-
 				return ctx.db.post.create({
 					data: {
 						...draft,

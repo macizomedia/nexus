@@ -2,18 +2,104 @@
 ### Do not make changes to this file directly
 
 
+type Activity {
+  challenge: Challenge
+  createdAt: DateTime
+  id: Int
+  interactions: [Interaction]
+  status: ActivityStatus
+  timeouts: Int
+  title: String
+  type: ActivityType
+  updatedAt: DateTime
+}
+
+input ActivityInput {
+  createdAt: DateTime
+  id: Int!
+  timeouts: Int
+  title: String!
+  updatedAt: DateTime
+}
+
+enum ActivityStatus {
+  CLOSED
+  COMPLETED
+  OPEN
+}
+
+enum ActivityType {
+  CYCLING
+  OTHER
+  RUNNING
+  SWIMMING
+  WALKING
+}
+
+type Challenge {
+  activities: [Activity]
+  createdAt: DateTime
+  description: String
+  endDate: DateTime
+  id: Int!
+  startDate: DateTime
+  title: String
+  type: ChallengeType
+  updatedAt: DateTime
+}
+
+input ChallengeInput {
+  createdAt: DateTime
+  description: String!
+  endDate: DateTime
+  id: Int!
+  startDate: DateTime
+  timeouts: Int
+  title: String!
+  updatedAt: DateTime
+}
+
+enum ChallengeType {
+  ENERGY
+  ENVIRONMENT
+  HEALTH
+  MOBILITY
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
 scalar DateTime
 
+type Interaction {
+  activityId: Int
+  createdAt: DateTime
+  id: Int
+  timeouts: Int
+  updatedAt: DateTime
+  userId: Int
+}
+
+input InteractionInput {
+  activityId: Int!
+  timeouts: Int!
+  userId: Int!
+}
+
 type Mutation {
+  createActivity(challenge: Int!, description: String!, endDate: String!, points: Int!, startDate: String!, title: String!, type: ActivityType!): Activity
+  createChallenge(description: String!, endDate: String!, startDate: String!, title: String!, type: ChallengeType!): Challenge
   createDraft(authorEmail: String!, body: String!, title: String!): Post
   createProfile(avatar: String!, bio: String!, userId: Int!): Profile
-  createUser(email: String!, name: String!): User
-  createUserWithProfile(email: String!, id: Int!, name: String!, profile: ProfileInput!): User
+  createUser(email: String!, name: String!, token: String!): User
+  createUserWithProfile(email: String!, id: Int!, name: String!, profile: ProfileInput!, token: String!): User
+  deleteActivity(id: Int!): Activity
+  deleteChallenge(id: Int!): Challenge
   deleteUser(id: Int!): User
+  newInteraction(activityId: Int!, userId: Int!): User
   publish(draftId: Int!): Post
+  updateActivity(challenge: Int!, id: Int!, title: String!): Activity
+  updateChallenge(activities: ActivityInput!, id: Int!, title: String!): Challenge
   updateProfile(avatar: String!, bio: String!, userId: Int!): Profile
   updateUser(email: String!, id: Int!, name: String!): User
   updateUserProfile(avatar: String!, bio: String!, id: Int!, level: String!, points: Int!): Profile
@@ -23,6 +109,8 @@ type Post {
   author: User
   body: String
   createdAt: DateTime
+
+  """Unique identifier for the resource"""
   id: Int
   published: Boolean
   title: String
@@ -48,15 +136,26 @@ input ProfileInput {
 
 type Query {
   drafts: [Post]
-  id(id: Int!): User
   posts: [Post]
   profile(userId: Int!): Profile
 }
 
+enum Role {
+  ADMIN
+  USER
+}
+
 type User {
+  createdAt: DateTime
   email: String
+
+  """Unique identifier for the resource"""
   id: Int
+  interactions: [Interaction]
   name: String
+  password: String
   posts: [Post]
   profile: Profile
+  role: Role
+  updatedAt: DateTime
 }
