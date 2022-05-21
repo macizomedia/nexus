@@ -6,17 +6,29 @@ generator client {
   previewFeatures = ["dataProxy"]
 }
 
+generator nexusPrisma {
+  provider = "nexus-prisma"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("LOCAL_DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+  USER
+}
+
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  profile Profile?
-  posts   Post[]
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  name         String
+  token        String
+  role         Role          @default(USER)
+  profile      Profile?
+  interactions Interaction[]
+  posts        Post[]
 }
 
 model Profile {
@@ -44,7 +56,7 @@ model Challenge {
   type        ChallengeType
   title       String
   description String
-  activities  Activity[]
+  activities  Activity[]    
   startDate   DateTime
   endDate     DateTime
   createdAt   DateTime      @default(now())
@@ -53,16 +65,29 @@ model Challenge {
 
 model Activity {
   id          Int            @id @default(autoincrement())
-  type        ActivityType
-  status      ActivityStatus
   title       String
   description String
+  type        ActivityType
+  status      ActivityStatus @default(OPEN)
+  points      Int
   startDate   DateTime
   endDate     DateTime
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
-  Challenge   Challenge?     @relation(fields: [challengeId], references: [id], onDelete: Cascade)
-  challengeId Int?
+  interactions Interaction[]  
+  Challenge   Challenge    @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  challengeId Int
+}
+
+model Interaction {
+  id         Int       @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  timeouts   Int
+  user       User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int?
+  Activity   Activity? @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  activityId Int?
 }
 
 enum ChallengeType {
