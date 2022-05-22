@@ -4,6 +4,7 @@
 
 type Activity {
   challenge: Challenge
+  challengeId: Int!
   createdAt: DateTime
   id: Int
   interactions: [Interaction]
@@ -16,9 +17,12 @@ type Activity {
 
 input ActivityInput {
   createdAt: DateTime
+  description: String!
   id: Int!
+  status: ActivityStatus
   timeouts: Int
   title: String!
+  type: ActivityType
   updatedAt: DateTime
 }
 
@@ -60,10 +64,10 @@ input ChallengeInput {
 }
 
 enum ChallengeType {
-  ENERGY
   ENVIRONMENT
   HEALTH
   MOBILITY
+  WASTE
 }
 
 """
@@ -87,21 +91,23 @@ input InteractionInput {
 }
 
 type Mutation {
+  addActivityToChallenge(activityId: Int!, challengeId: Int!): Challenge
   createActivity(challenge: Int!, description: String!, endDate: String!, points: Int!, startDate: String!, title: String!, type: ActivityType!): Activity
   createChallenge(description: String!, endDate: String!, startDate: String!, title: String!, type: ChallengeType!): Challenge
   createDraft(authorEmail: String!, body: String!, title: String!): Post
   createProfile(avatar: String!, bio: String!, userId: Int!): Profile
   createUser(email: String!, name: String!, token: String!): User
-  createUserWithProfile(email: String!, id: Int!, name: String!, profile: ProfileInput!, token: String!): User
+  createUserWithProfile(email: String!, name: String!, profile: ProfileInput!, token: String!): User
   deleteActivity(id: Int!): Activity
   deleteChallenge(id: Int!): Challenge
   deleteUser(id: Int!): User
   newInteraction(activityId: Int!, userId: Int!): User
   publish(draftId: Int!): Post
-  updateActivity(challenge: Int!, id: Int!, title: String!): Activity
+  updateActivityStatus(id: Int!, status: ActivityStatus!): Activity
   updateChallenge(activities: ActivityInput!, id: Int!, title: String!): Challenge
   updateProfile(avatar: String!, bio: String!, userId: Int!): Profile
   updateUser(email: String!, id: Int!, name: String!): User
+  updateUserPoints(points: Int!, userId: Int!): User
   updateUserProfile(avatar: String!, bio: String!, id: Int!, level: String!, points: Int!): Profile
 }
 
@@ -131,13 +137,13 @@ input ProfileInput {
   bio: String!
   level: String!
   points: Int!
-  userId: Int!
 }
 
 type Query {
   drafts: [Post]
   posts: [Post]
   profile(userId: Int!): Profile
+  user(id: Int!): User
 }
 
 enum Role {
@@ -150,12 +156,12 @@ type User {
   email: String
 
   """Unique identifier for the resource"""
-  id: Int
+  id: Int!
   interactions: [Interaction]
   name: String
-  password: String
   posts: [Post]
   profile: Profile
   role: Role
+  token: String
   updatedAt: DateTime
 }

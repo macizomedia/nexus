@@ -4,4 +4,5 @@ export * from "./Profile";
 export * from "./Challenge";
 export * from "./Activity";
 export * from "./Interaction";
+export * from "./Query";
 export * from "./Mutations";
