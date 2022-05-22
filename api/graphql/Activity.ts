@@ -7,7 +7,7 @@ export const activityStatus = enumType(ActivityStatus);
 export const Activity = objectType({
 	name: "Activity",
 	definition(t) {
-		t.int("id");
+		t.nonNull.int("id");
 		t.string("title");
 		t.field("type", { type: activityType });
 		t.field("status", { type: activityStatus });

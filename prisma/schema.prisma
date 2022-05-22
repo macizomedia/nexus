@@ -24,7 +24,7 @@ model User {
   id           Int           @id @default(autoincrement())
   email        String        @unique
   name         String
-  token        String
+  token        String?
   role         Role          @default(USER)
   profile      Profile?
   interactions Interaction[]
@@ -56,7 +56,7 @@ model Challenge {
   type        ChallengeType
   title       String
   description String
-  activities  Activity[]    
+  activities  Activity[]
   startDate   DateTime
   endDate     DateTime
   createdAt   DateTime      @default(now())
@@ -64,30 +64,30 @@ model Challenge {
 }
 
 model Activity {
-  id          Int            @id @default(autoincrement())
-  title       String
-  description String
-  type        ActivityType
-  status      ActivityStatus @default(OPEN)
-  points      Int
-  startDate   DateTime
-  endDate     DateTime
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-  interactions Interaction[]  
-  Challenge   Challenge    @relation(fields: [challengeId], references: [id], onDelete: Cascade)
-  challengeId Int
+  id           Int            @id @default(autoincrement())
+  title        String
+  description  String
+  type         ActivityType
+  status       ActivityStatus @default(OPEN)
+  points       Int
+  startDate    DateTime
+  endDate      DateTime
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  interactions Interaction[]
+  Challenge    Challenge      @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  challengeId  Int
 }
 
 model Interaction {
-  id         Int       @id @default(autoincrement())
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  timeouts   Int
-  user       User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     Int?
-  Activity   Activity? @relation(fields: [activityId], references: [id], onDelete: Cascade)
-  activityId Int?
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  timeouts   Int      @default(value: 0)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int
+  Activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  activityId Int
 }
 
 enum ChallengeType {

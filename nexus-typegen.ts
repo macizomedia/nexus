@@ -82,7 +82,7 @@ export interface NexusGenObjects {
   Activity: { // root type
     challengeId: number; // Int!
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
-    id?: number | null; // Int
+    id: number; // Int!
     status?: NexusGenEnums['ActivityStatus'] | null; // ActivityStatus
     timeouts?: number | null; // Int
     title?: string | null; // String
@@ -100,12 +100,12 @@ export interface NexusGenObjects {
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
   Interaction: { // root type
-    activityId?: number | null; // Int
+    activityId: number; // Int!
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
-    id?: number | null; // Int
+    id: number; // Int!
     timeouts?: number | null; // Int
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
-    userId?: number | null; // Int
+    userId: number; // Int!
   }
   Mutation: {};
   Post: { // root type
@@ -128,10 +128,10 @@ export interface NexusGenObjects {
   Query: {};
   User: { // root type
     createdAt?: NexusGenScalars['DateTime'] | null; // DateTime
-    email?: string | null; // String
+    email: string; // String!
     id: number; // Int!
-    name?: string | null; // String
-    role?: NexusGenEnums['Role'] | null; // Role
+    name: string; // String!
+    role: NexusGenEnums['Role']; // Role!
     token?: string | null; // String
     updatedAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
@@ -152,7 +152,7 @@ export interface NexusGenFieldTypes {
     challenge: NexusGenRootTypes['Challenge'] | null; // Challenge
     challengeId: number; // Int!
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
-    id: number | null; // Int
+    id: number; // Int!
     interactions: Array<NexusGenRootTypes['Interaction'] | null> | null; // [Interaction]
     status: NexusGenEnums['ActivityStatus'] | null; // ActivityStatus
     timeouts: number | null; // Int
@@ -172,12 +172,14 @@ export interface NexusGenFieldTypes {
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
   }
   Interaction: { // field return type
-    activityId: number | null; // Int
+    activity: NexusGenRootTypes['Activity'] | null; // Activity
+    activityId: number; // Int!
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
-    id: number | null; // Int
+    id: number; // Int!
     timeouts: number | null; // Int
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
-    userId: number | null; // Int
+    user: NexusGenRootTypes['User'] | null; // User
+    userId: number; // Int!
   }
   Mutation: { // field return type
     addActivityToChallenge: NexusGenRootTypes['Challenge'] | null; // Challenge
@@ -190,7 +192,7 @@ export interface NexusGenFieldTypes {
     deleteActivity: NexusGenRootTypes['Activity'] | null; // Activity
     deleteChallenge: NexusGenRootTypes['Challenge'] | null; // Challenge
     deleteUser: NexusGenRootTypes['User'] | null; // User
-    newInteraction: NexusGenRootTypes['User'] | null; // User
+    newInteraction: NexusGenRootTypes['Interaction'] | null; // Interaction
     publish: NexusGenRootTypes['Post'] | null; // Post
     updateActivityStatus: NexusGenRootTypes['Activity'] | null; // Activity
     updateChallenge: NexusGenRootTypes['Challenge'] | null; // Challenge
@@ -217,20 +219,23 @@ export interface NexusGenFieldTypes {
     userId: number | null; // Int
   }
   Query: { // field return type
+    activity: NexusGenRootTypes['Activity'] | null; // Activity
+    challenge: NexusGenRootTypes['Challenge'] | null; // Challenge
     drafts: Array<NexusGenRootTypes['Post'] | null> | null; // [Post]
+    interactions: NexusGenRootTypes['Interaction'] | null; // Interaction
     posts: Array<NexusGenRootTypes['Post'] | null> | null; // [Post]
     profile: NexusGenRootTypes['Profile'] | null; // Profile
     user: NexusGenRootTypes['User'] | null; // User
   }
   User: { // field return type
     createdAt: NexusGenScalars['DateTime'] | null; // DateTime
-    email: string | null; // String
+    email: string; // String!
     id: number; // Int!
     interactions: Array<NexusGenRootTypes['Interaction'] | null> | null; // [Interaction]
-    name: string | null; // String
+    name: string; // String!
     posts: Array<NexusGenRootTypes['Post'] | null> | null; // [Post]
     profile: NexusGenRootTypes['Profile'] | null; // Profile
-    role: NexusGenEnums['Role'] | null; // Role
+    role: NexusGenEnums['Role']; // Role!
     token: string | null; // String
     updatedAt: NexusGenScalars['DateTime'] | null; // DateTime
   }
@@ -261,11 +266,13 @@ export interface NexusGenFieldTypeNames {
     updatedAt: 'DateTime'
   }
   Interaction: { // field return type name
+    activity: 'Activity'
     activityId: 'Int'
     createdAt: 'DateTime'
     id: 'Int'
     timeouts: 'Int'
     updatedAt: 'DateTime'
+    user: 'User'
     userId: 'Int'
   }
   Mutation: { // field return type name
@@ -279,7 +286,7 @@ export interface NexusGenFieldTypeNames {
     deleteActivity: 'Activity'
     deleteChallenge: 'Challenge'
     deleteUser: 'User'
-    newInteraction: 'User'
+    newInteraction: 'Interaction'
     publish: 'Post'
     updateActivityStatus: 'Activity'
     updateChallenge: 'Challenge'
@@ -306,7 +313,10 @@ export interface NexusGenFieldTypeNames {
     userId: 'Int'
   }
   Query: { // field return type name
+    activity: 'Activity'
+    challenge: 'Challenge'
     drafts: 'Post'
+    interactions: 'Interaction'
     posts: 'Post'
     profile: 'Profile'
     user: 'User'
@@ -416,6 +426,15 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    activity: { // args
+      id: number; // Int!
+    }
+    challenge: { // args
+      id: number; // Int!
+    }
+    interactions: { // args
+      id: number; // Int!
+    }
     profile: { // args
       userId: number; // Int!
     }

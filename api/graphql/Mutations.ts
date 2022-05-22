@@ -154,7 +154,7 @@ export const userMutation = extendType({
 		});
 
 		t.field("newInteraction", {
-			type: "User",
+			type: "Interaction",
 			args: {
 				userId: nonNull(intArg()),
 				activityId: nonNull(intArg())

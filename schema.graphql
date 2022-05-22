@@ -6,7 +6,7 @@ type Activity {
   challenge: Challenge
   challengeId: Int!
   createdAt: DateTime
-  id: Int
+  id: Int!
   interactions: [Interaction]
   status: ActivityStatus
   timeouts: Int
@@ -76,12 +76,14 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Interaction {
-  activityId: Int
+  activity: Activity
+  activityId: Int!
   createdAt: DateTime
-  id: Int
+  id: Int!
   timeouts: Int
   updatedAt: DateTime
-  userId: Int
+  user: User
+  userId: Int!
 }
 
 input InteractionInput {
@@ -101,7 +103,7 @@ type Mutation {
   deleteActivity(id: Int!): Activity
   deleteChallenge(id: Int!): Challenge
   deleteUser(id: Int!): User
-  newInteraction(activityId: Int!, userId: Int!): User
+  newInteraction(activityId: Int!, userId: Int!): Interaction
   publish(draftId: Int!): Post
   updateActivityStatus(id: Int!, status: ActivityStatus!): Activity
   updateChallenge(activities: ActivityInput!, id: Int!, title: String!): Challenge
@@ -140,7 +142,10 @@ input ProfileInput {
 }
 
 type Query {
+  activity(id: Int!): Activity
+  challenge(id: Int!): Challenge
   drafts: [Post]
+  interactions(id: Int!): Interaction
   posts: [Post]
   profile(userId: Int!): Profile
   user(id: Int!): User
@@ -153,15 +158,15 @@ enum Role {
 
 type User {
   createdAt: DateTime
-  email: String
+  email: String!
 
   """Unique identifier for the resource"""
   id: Int!
   interactions: [Interaction]
-  name: String
+  name: String!
   posts: [Post]
   profile: Profile
-  role: Role
+  role: Role!
   token: String
   updatedAt: DateTime
 }
